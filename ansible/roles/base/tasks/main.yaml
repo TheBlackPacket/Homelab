@@ -1,0 +1,2 @@
+- include_tasks: ./DisableSELinux.ansible.yml
+- include_tasks: ./SetupNodeExporter.ansible.yml

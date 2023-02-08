@@ -1,0 +1,51 @@
+- name: Create node user
+  ansible.builtin.user:
+    name: node
+    create_home: false
+    shell: /usr/bin/false
+
+- name: Create destination folder
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: node
+    mode: 0755
+  with_items:
+    - /etc/node_exporter
+    - /var/lib/node_exporter/textfile_collector
+
+- name: Unzip node exporter
+  ansible.builtin.unarchive:
+    src: https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
+    remote_src: yes
+    dest: /etc/node_exporter
+  register: fileName
+
+- name: Setup Service File
+  ansible.builtin.copy:
+    force: yes
+    dest: /etc/systemd/system/nodeExporter.service
+    content: |
+      [Unit]
+      Description=Start the node explorer
+      After=Network-online.target
+
+      [Service]
+      ExecStart=/etc/node_exporter/node_exporter-1.5.0.linux-amd64/node_exporter --collector.textfile.directory=/var/lib/node_exporter/textfile_collector/
+
+      [Install]
+      WantedBy=multi-user.target
+    mode: 0755
+
+- name: Setup Firewall for Node Exporter
+  ansible.posix.firewalld:
+    permanent: true
+    port: 9100/tcp
+    state: enabled
+
+- name: Enable and start nodeExporter.service
+  ansible.builtin.systemd:
+    name: nodeExporter.service
+    enabled: true
+    state: restarted
+    daemon_reload: true

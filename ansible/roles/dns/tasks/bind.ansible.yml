@@ -1,0 +1,39 @@
+---
+- name: Setup Bind
+- hosts: p1-bind-01
+- become: yes
+- tasks:
+
+  - name: Install Bind
+    ansible.builtin.yum:
+      pkg:
+        - bind
+        - bind-utils
+
+  - name: Setup Bind config
+    ansible.builtin.copy:
+      dest: /etc/named.conf
+      content: |
+          listen-on port 53 { 127.0.0.1; 192.168.1.246; };
+          allow-query { localhost; 192.168.1.0/24; };
+          allow-recursion { localhost; 192.168.1.0/24; };
+          forwarders { 1.1.1.1; 8.8.8.8; };
+
+
+  - name: Setup Bind Reverse Zone
+    ansible.builtin.copy:
+      dest: 
+
+  - name: Condigure Firewall
+    ansible.posix.firewalld:
+      zone: public
+      state: enabled
+      permanent: true
+      service: dns
+
+  - name: Enable and start named
+    ansible.builtin.systemd:
+      name: named
+      daemon_reload: true
+      state: started
+      enabled: true

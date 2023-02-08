@@ -1,0 +1,5 @@
+---
+- hosts: testers
+  become: yes
+  roles:
+    - base

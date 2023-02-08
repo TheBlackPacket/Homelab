@@ -1,0 +1,37 @@
+
+testers:
+  hosts:
+    d1-junk-01:
+      ansible_host: 192.168.1.178
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ./ansible
+      roles:
+        - base
+
+
+production:
+  hosts:
+    p1-bind-01:
+      ansible_host: 192.168.1.246
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ./ansible
+      roles:
+        - base
+    p1-logmuncher-01:
+      ansible_host: 192.168.1.7
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ./ansible
+      roles:
+        - base
+    p1-monitor-01:
+      ansible_host: 192.168.1.142
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ./ansible
+      roles:
+        - base
+    p1-pxe-01:
+      ansible_host: 192.168.1.43
+      ansible_user: ansible
+      ansible_ssh_private_key_file: ./ansible
+      roles:
+        - base
