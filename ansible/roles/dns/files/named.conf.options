@@ -1,0 +1,21 @@
+
+
+options{
+    directory "/var/cache/bind";
+
+    forwarders{
+        1.1.1.1;
+        1.1.1.2;
+        8.8.8.8;
+        8.8.4.4;
+    }
+
+    allow-query{
+        any;
+    }
+
+
+    dnssec-enable no;
+
+    auth-nxdomain no;
+}

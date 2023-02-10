@@ -6,7 +6,8 @@ testers:
       ansible_user: ansible
       ansible_ssh_private_key_file: ./ansible
       roles:
-        - base
+        - common
+        - LogMuncher
 
 
 production:
@@ -16,22 +17,22 @@ production:
       ansible_user: ansible
       ansible_ssh_private_key_file: ./ansible
       roles:
-        - base
+        - common
     p1-logmuncher-01:
       ansible_host: 192.168.1.7
       ansible_user: ansible
       ansible_ssh_private_key_file: ./ansible
       roles:
-        - base
+        - common
     p1-monitor-01:
       ansible_host: 192.168.1.142
       ansible_user: ansible
       ansible_ssh_private_key_file: ./ansible
       roles:
-        - base
+        - common
     p1-pxe-01:
       ansible_host: 192.168.1.43
       ansible_user: ansible
       ansible_ssh_private_key_file: ./ansible
       roles:
-        - base
+        - common

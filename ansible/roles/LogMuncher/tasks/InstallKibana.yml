@@ -1,0 +1,21 @@
+---
+
+- name: Setup Kibana Repo File
+  ansible.builtin.copy:
+    src: kibana.repo
+    dest: /etc/yum.repos.d/
+    mode: 0755
+ 
+- name: Install Kibana
+  ansible.builtin.dnf:
+    enablerepo: kibana
+    disable_gpg_check: true
+    name:
+      - kibana
+
+- name: Start Kibana
+  ansible.builtin.systemd:
+    name: kibana.service
+    enabled: true
+    state: restarted
+    daemon_reload: true

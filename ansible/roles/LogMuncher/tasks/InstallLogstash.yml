@@ -1,0 +1,21 @@
+---
+
+- name: Setup Logstash Repo File
+  ansible.builtin.copy:
+    src: Logstash.repo
+    dest: /etc/yum.repos.d/
+    mode: 0755
+ 
+- name: Install Logstash
+  ansible.builtin.dnf:
+    enablerepo: Logstash
+    disable_gpg_check: true
+    name:
+      - logstash
+
+- name: Start Logstash
+  ansible.builtin.systemd:
+    name: logstash.service
+    enabled: true
+    state: restarted
+    daemon_reload: true

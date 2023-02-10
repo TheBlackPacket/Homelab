@@ -2,4 +2,5 @@
 - hosts: testers
   become: yes
   roles:
-    - base
+    - common
+    - LogMuncher

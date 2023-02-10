@@ -1,0 +1,27 @@
+---
+
+- name: Setup Elasticsearch Repo File
+  ansible.builtin.copy:
+    src: elasticsearch.repo
+    dest: /etc/yum.repos.d/
+    mode: 0755
+ 
+- name: Install Elasticsearch
+  ansible.builtin.dnf:
+    enablerepo: elasticsearch
+    disable_gpg_check: true
+    name:
+      - elasticsearch
+
+- name: Setup Firewall for Elasticsearch
+  ansible.posix.firewalld:
+    permanent: true
+    port: 9200/tcp
+    state: enabled
+
+- name: Start Elasticsearch
+  ansible.builtin.systemd:
+    name: elasticsearch.service
+    enabled: true
+    state: restarted
+    daemon_reload: true
